@@ -1,0 +1,21 @@
+name: Gerador Automatico ANA
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codigo
+        uses: actions/checkout@v3
+
+      - name: Instalar Bibliotecas de SIG
+        run: pip install rasterio geopandas pandas shapely pyogrio
+
+      - name: Executar Gerador de Mancha
+        run: python gerador_mancha.py
+
+      - name: Disponibilizar Shapefiles para Download
+        uses: actions/upload-artifact@v4
+        with:
+          name: manchas-calculadas
+          path: output/
